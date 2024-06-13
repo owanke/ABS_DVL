@@ -1,4 +1,5 @@
 package implementierung;
+import helper.Validator;
 import schnittstellen.*;
 
 
@@ -10,21 +11,32 @@ public class ListElement implements IListElement
     
     public ListElement(IValueElement element)
     {
-        this.valueElement = element;
+        if (element != null)
+        {
+            this.valueElement = element;
+        }
+        else
+        {
+            this.valueElement = new ValueElement("Defalut", 0);
+        }
     }
     
   
 
     public IValueElement getValueElement()
     {
-        // todo: darf nicht null sein
+        
         return this.valueElement;
+      
     }
 
 
     public void setValueElement(IValueElement value)
     {
-        this.valueElement = value;
+        if (value != null)
+        {
+            this.valueElement = value;
+        }
         
     }
 
@@ -55,4 +67,5 @@ public class ListElement implements IListElement
         this.successor = successor;
         
     }
+
 }

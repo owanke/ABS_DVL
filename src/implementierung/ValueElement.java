@@ -39,14 +39,6 @@ public class ValueElement implements IValueElement
         return "Name: " + this.name + " value: " + this.value;
     }
     
-//    private String validString(String theStringToCheck)
-//    {
-//        String validString = theStringToCheck;
-//        if (theStringToCheck == null)
-//        {
-//            validString = "Darf nicht null sein.";
-//        }
-//        return validString;
-//    }
+
     
 }

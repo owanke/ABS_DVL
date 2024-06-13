@@ -4,11 +4,13 @@ import schnittstellen.*;
 public class List implements IList
 {
     private ListElement head;
-    private List list;
     
 
     public List()
     {
+        this.head = new ListElement(new ValueElement("Dummy (Kopf)",0));
+        this.head.setPredecessor(null);
+        this.head.setSuccessor(null);
        
     }
     
@@ -21,7 +23,12 @@ public class List implements IList
     @Override
     public void insertAtTheEnd(IValueElement value)
     {
-        // TODO Auto-generated method stub
+        ListElement newValue = new ListElement(validValue(value));
+        
+        this.head.getPredecessor().setSuccessor(newValue);
+        newValue.setSuccessor(this.head);
+        
+        
         
     }
 
@@ -77,6 +84,16 @@ public class List implements IList
     public String toString()
     {
         return "toDo";
+    }
+    
+    private IValueElement validValue(IValueElement valueToCheck)
+    {
+        IValueElement validatedValue = valueToCheck;
+        if (validatedValue == null)
+        {
+            validatedValue = new ValueElement("Default",0);
+        }
+        return validatedValue;
     }
     
 }
