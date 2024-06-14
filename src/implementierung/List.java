@@ -9,8 +9,8 @@ public class List implements IList
     public List()
     {
         this.head = new ListElement(new ValueElement("Dummy (Kopf)",0));
-        this.head.setPredecessor(null);
-        this.head.setSuccessor(null);
+//        this.head.setPredecessor(null);
+//        this.head.setSuccessor(null);
        
     }
     
@@ -24,6 +24,26 @@ public class List implements IList
     public void insertAtTheEnd(IValueElement value)
     {
         ListElement newValue = new ListElement(validValue(value));
+        
+        // case: Liste leer
+        // head.pre: null
+        // head.succc: null
+        
+        // Ziel: head.pre = newValue
+        //       head.succ = new Value
+        if (this.head.getPredecessor() == this.head)
+        {
+            this.head.setPredecessor(newValue);
+            this.head.setSuccessor(newValue);
+        }
+        else
+        {
+            IListElement oldPre = head.getPredecessor().getPredecessor();
+            newValue.setPredecessor(oldPre);
+            newValue.setSuccessor(this.head);
+            oldPre.setSuccessor(newValue);
+        }
+        // case: Liste nicht leer
         
         this.head.getPredecessor().setSuccessor(newValue);
         newValue.setSuccessor(this.head);

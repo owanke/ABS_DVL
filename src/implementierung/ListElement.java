@@ -14,10 +14,14 @@ public class ListElement implements IListElement
         if (element != null)
         {
             this.valueElement = element;
+            this.predecessor = this;
+            this.successor = this;
         }
         else
         {
             this.valueElement = new ValueElement("Defalut", 0);
+            this.predecessor = this;
+            this.successor = this;
         }
     }
     
@@ -43,29 +47,44 @@ public class ListElement implements IListElement
   
     public IListElement getPredecessor()
     {
-      
-        return this.predecessor;
+        if (this.predecessor == null)
+        {
+            return this;
+        }
+        else
+        {
+            return this.predecessor;
+        }
     }
 
  
     public void setPredecessor(IListElement predecessor)
     {
-        this.predecessor = predecessor;
+        if (predecessor == null)
+        {
+            this.predecessor = this;
+        }
+        else
+        {
+            this.predecessor = predecessor;
+        }
         
     }
 
    
     public IListElement getSuccessor()
     {
-       
+      
         return this.successor;
     }
 
    
     public void setSuccessor(IListElement successor)
     {
-        this.successor = successor;
-        
+        if (successor != null)
+        {
+            this.successor = successor;
+        }
     }
 
 }
