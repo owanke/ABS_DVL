@@ -1,5 +1,4 @@
 package implementierung;
-import helper.Validator;
 import schnittstellen.*;
 
 
@@ -14,15 +13,13 @@ public class ListElement implements IListElement
         if (element != null)
         {
             this.valueElement = element;
-            this.predecessor = this;
-            this.successor = this;
         }
         else
         {
-            this.valueElement = new ValueElement("Defalut", 0);
-            this.predecessor = this;
-            this.successor = this;
+            this.valueElement = new ValueElement("Default", 0);
         }
+       
+ 
     }
     
   
@@ -47,28 +44,16 @@ public class ListElement implements IListElement
   
     public IListElement getPredecessor()
     {
-        if (this.predecessor == null)
-        {
-            return this;
-        }
-        else
-        {
-            return this.predecessor;
-        }
+        return this.predecessor;
     }
 
  
     public void setPredecessor(IListElement predecessor)
     {
-        if (predecessor == null)
-        {
-            this.predecessor = this;
-        }
-        else
+        if (predecessor != null)
         {
             this.predecessor = predecessor;
-        }
-        
+        }   
     }
 
    

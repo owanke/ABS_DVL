@@ -9,8 +9,8 @@ public class List implements IList
     public List()
     {
         this.head = new ListElement(new ValueElement("Dummy (Kopf)",0));
-//        this.head.setPredecessor(null);
-//        this.head.setSuccessor(null);
+        this.head.setPredecessor(this.head);
+        this.head.setSuccessor(this.head);
        
     }
     
