@@ -8,10 +8,7 @@ public class List implements IList
 
     public List()
     {
-        this.head = new ListElement(new ValueElement("Dummy (Kopf)",0));
-        this.head.setPredecessor(this.head);
-        this.head.setSuccessor(this.head);
-       
+        this.head = new ListElement(new ValueElement("Dummy (Kopf)",0));  
     }
     
     @Override
@@ -31,25 +28,38 @@ public class List implements IList
         
         // Ziel: head.pre = newValue
         //       head.succ = new Value
-        if (this.head.getPredecessor() == this.head)
+        if (this.head.getPredecessor() == null)
         {
-            this.head.setPredecessor(newValue);
             this.head.setSuccessor(newValue);
+            this.head.setPredecessor(newValue);
+            newValue.setPredecessor(this.head);
+            newValue.setSuccessor(null);
+            
         }
         else
         {
-            IListElement oldPre = head.getPredecessor().getPredecessor();
-            newValue.setPredecessor(oldPre);
-            newValue.setSuccessor(this.head);
-            oldPre.setSuccessor(newValue);
+            // durchlaufe Elemente von head bis successor null ist. Das ist
+            // dann die letze Position
+            ListElement position=this.head;
+            ListElement nextPosition=null;
+            
+            while (position.getSuccessor() !=null)
+            {
+                nextPosition = (ListElement)position.getSuccessor();
+                position = nextPosition;
+            }
+        
+            
+            // hänge newValue an die letzte Position als Successor
+            position.setSuccessor(newValue);
+            newValue.setPredecessor(position);
+            this.head.setPredecessor(newValue);
         }
-        // case: Liste nicht leer
-        
-        this.head.getPredecessor().setSuccessor(newValue);
-        newValue.setSuccessor(this.head);
         
         
         
+        
+       
     }
 
     @Override
