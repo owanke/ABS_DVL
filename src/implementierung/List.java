@@ -103,11 +103,9 @@ public class List implements IList
         for (i=0; i<pos; i++)
         {
             posPredecessor = position;
-            position = (ListElement)position.getSuccessor();
-            System.out.println("i: " + i);
+            position = (ListElement)position.getSuccessor();          
         }
-        
-        System.out.println("position: " + i);
+  
         
         
         // create newValue
@@ -122,18 +120,12 @@ public class List implements IList
         {
             position.setPredecessor(newValue);
         }
-        else
+        else  // if new value is last element set predecessor of head to new value
         {
             this.head.setPredecessor(newValue);
         }
         
-        
-      
-     
-      
-        // if new value is last element set predecessor of head to new value
-     
-       
+
         // update Head if pos = 1
         if (pos == 1)
         {
@@ -141,6 +133,7 @@ public class List implements IList
         }
     }
     
+   
     private int length()
     {
         ListElement position;
@@ -158,6 +151,7 @@ public class List implements IList
         while (position.getSuccessor() != null)
         {
             position = (ListElement)position.getSuccessor();
+            System.out.println("Pos: " + length + " " + position.getValueElement().toString());
             length++;
         }
         return length;
@@ -166,22 +160,137 @@ public class List implements IList
     @Override
     public IValueElement getElementAt(int pos)
     {
-        // TODO Auto-generated method stub
-        return null;
+        int listLength = this.length();
+        if (pos <= listLength)
+        {
+            return getListElementAt(pos).getValueElement();
+        }
+        else
+        {
+            return this.head.getValueElement();
+        }
+        
+        
     }
 
+    private IListElement getListElementAt(int pos)
+    {
+        ListElement position=this.head;
+        ListElement posPredecessor=position;
+        
+        
+        int listLength = this.length();
+
+        
+        // check for pos < 1
+        if (pos<1)
+        {
+            pos=1;
+        }
+        
+        // check if pos > length
+        if (pos > listLength+1)
+        {
+            pos = listLength+1;
+        }
+        
+        // circle to pos
+        int i;
+        for (i=0; i<pos; i++)
+        {
+            posPredecessor = position;
+            position = (ListElement)position.getSuccessor();          
+        }
+        
+        
+        return position;
+    }
+    
     @Override
     public int getFirstPosOf(IValueElement value)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int listLength = this.length();
+        ListElement position = (ListElement) this.head.getSuccessor();
+        ListElement posPredecessor = position;
+
+        // find first pos of
+
+        // default bei keiner Übereinstimmung ist -1
+        int firstPos = -1;
+        for (int i = 1; i <= listLength; i++)
+        {
+            if (valueStimmtUeberein(position.getValueElement(), value)) // falls
+                                                                        // das
+                                                                        // ValueElement
+                                                                        // vorkommt
+            {
+                firstPos = i;
+                break;
+            }
+            posPredecessor = position;
+            position = (ListElement) position.getSuccessor();
+
+        }
+
+        return firstPos;
+    }
+    
+    private boolean valueStimmtUeberein(IValueElement value1, IValueElement value2)
+    {
+        boolean stimmtUeberein=false;
+        
+        if (value1.getName() == value2.getName())
+        {
+            stimmtUeberein = true;
+        }
+        System.out.println("" + value1.toString() + " stimmt überein mit " + value2.toString() + ": " + stimmtUeberein);
+        return stimmtUeberein;
     }
 
     @Override
     public void deleteFirstOf(IValueElement value)
     {
-        // TODO Auto-generated method stub
+        int listLength = this.length();
         
+        // find element position
+        int pos = -1;
+        if (value != null)
+        {
+            pos = this.getFirstPosOf(value);
+        }
+        
+        if (pos >=1)
+        {
+         // get element at that position
+            ListElement position=(ListElement)this.getListElementAt(pos);
+            System.out.println("deleteFirstOf Item: " + position.getValueElement().toString());
+            // reconnect predecessor and successor
+            ListElement predecessor = (ListElement)position.getPredecessor();
+            ListElement successor = (ListElement)position.getSuccessor();
+            predecessor.setSuccessor(successor);
+            if (successor != null)
+            {
+                successor.setPredecessor(predecessor);
+            }
+            else
+            {
+                predecessor.setSuccessor(null);
+            }
+            
+            
+            // if deleted last object, adjust head predecessor, and successor
+            if (pos == listLength)
+            {
+                this.head.setPredecessor(position.getPredecessor());
+
+            }
+            
+        }
+        if (this.length() == 0)
+        {
+            this.head.setPredecessor(null);
+        }
+       
     }
 
     @Override

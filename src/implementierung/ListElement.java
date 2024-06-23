@@ -50,10 +50,11 @@ public class ListElement implements IListElement
  
     public void setPredecessor(IListElement predecessor)
     {
-        if (predecessor != null)
-        {
-            this.predecessor = predecessor;
-        }   
+        this.predecessor = predecessor;
+//        if (predecessor != null)
+//        {
+//            this.predecessor = predecessor;
+//        }   
     }
 
    
@@ -66,10 +67,11 @@ public class ListElement implements IListElement
    
     public void setSuccessor(IListElement successor)
     {
-        if (successor != null)
-        {
-            this.successor = successor;
-        }
+        this.successor = successor;
+//        if (successor != null)
+//        {
+//            this.successor = successor;
+//        }
     }
 
 }
