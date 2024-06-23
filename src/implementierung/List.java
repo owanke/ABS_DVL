@@ -22,12 +22,7 @@ public class List implements IList
     {
         ListElement newValue = new ListElement(validValue(value));
         
-        // case: Liste leer
-        // head.pre: null
-        // head.succc: null
-        
-        // Ziel: head.pre = newValue
-        //       head.succ = new Value
+ 
         if (this.head.getPredecessor() == null)
         {
             this.head.setSuccessor(newValue);
@@ -65,8 +60,107 @@ public class List implements IList
     @Override
     public void insertAtPos(int pos, IValueElement value)
     {
-        // TODO Auto-generated method stub
+        ListElement position=this.head;
+        ListElement posPredecessor=position;
         
+        
+        int listLength = this.length();
+       
+        // if Liste leer, hänge neues Element an
+        if (listLength == 0)
+        {
+            this.insertAtTheEnd(value);
+            return;
+        }
+        
+        // wenn an letzter Position
+        if (pos == listLength+1)
+        {
+            this.insertAtTheEnd(value);
+            return;
+        }
+        
+        // check for null
+        if (value == null)
+        {
+            value = new ValueElement("Default",0);
+        }
+        
+        // check for pos < 1
+        if (pos<1)
+        {
+            pos=1;
+        }
+        
+        // check if pos > length
+        if (pos > listLength+1)
+        {
+            pos = listLength+1;
+        }
+        
+        // circle to pos
+        int i;
+        for (i=0; i<pos; i++)
+        {
+            posPredecessor = position;
+            position = (ListElement)position.getSuccessor();
+            System.out.println("i: " + i);
+        }
+        
+        System.out.println("position: " + i);
+        
+        
+        // create newValue
+        ListElement newValue = new ListElement(value);
+        newValue.setPredecessor(posPredecessor);
+        newValue.setSuccessor(position);
+        
+        // insert Element
+        posPredecessor.setSuccessor(newValue);
+        // check if inserted at last position
+        if (position != null)
+        {
+            position.setPredecessor(newValue);
+        }
+        else
+        {
+            this.head.setPredecessor(newValue);
+        }
+        
+        
+      
+     
+      
+        // if new value is last element set predecessor of head to new value
+     
+       
+        // update Head if pos = 1
+        if (pos == 1)
+        {
+            this.head.setSuccessor(newValue);
+        }
+    }
+    
+    private int length()
+    {
+        ListElement position;
+        int length = 1;
+        
+        // falls leere Liste
+        if (this.head.getSuccessor() == null)
+        {
+            length = 0;
+            return length;
+        }
+        
+        
+        position = (ListElement)this.head.getSuccessor();
+        while (position.getSuccessor() != null)
+        {
+            position = (ListElement)position.getSuccessor();
+            length++;
+        }
+        return length;
     }
 
     @Override
