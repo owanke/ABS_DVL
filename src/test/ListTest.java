@@ -9,10 +9,14 @@ public class ListTest
     {
         List liste=new List();
         
-        liste.insertAtTheEnd(new ValueElement("ElemToDelete",4711));
-        liste.deleteFirstOf(new ValueElement("ElemToDelete", 4711));
+        liste.insertAtTheEnd(new ValueElement("1",1));
+        liste.insertAtTheEnd(new ValueElement("2",2));
+
+        liste.reverse();
+       
+
         
-        System.out.println("Stop");
+        System.out.println(liste.toString());
        
 
     }

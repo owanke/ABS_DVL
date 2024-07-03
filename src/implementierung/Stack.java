@@ -3,54 +3,78 @@ import schnittstellen.*;
 
 public class Stack implements IStack
 {
+    private List liste;
+    final static int MAXSIZE = 7;
+    
+    public Stack()
+    {
+        liste = new List();
+    }
 
     @Override
     public IList getDVL()
     {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return liste;
     }
 
     @Override
     public int getSize()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return liste.length();
     }
 
     @Override
     public boolean isEmpty()
     {
-        // TODO Auto-generated method stub
-        return false;
+        
+        return (this.getSize()==0);
     }
 
     @Override
     public boolean isFull()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return (this.getSize()>=MAXSIZE);
     }
 
     @Override
     public int pop()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        // if list is empty
+        if (getSize()==0)
+        {
+            return -1;
+        }
+        
+        ListElement position = (ListElement)liste.getHead().getSuccessor();
+        liste.deleteFirstOf(position.getValueElement());
+        return position.getValueElement().getValue();
     }
 
     @Override
     public void push(int value)
     {
-        // TODO Auto-generated method stub
+        if (!isFull() && value>=0)
+        {
+            liste.insertAtPos(0, new ValueElement("new", value));
+        }
+        
         
     }
 
     @Override
     public int top()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        if (getSize()==0)
+        {
+            return -1;
+        }
+        
+        ListElement position = (ListElement)liste.getHead().getSuccessor();
+       
+        
+        return position.getValueElement().getValue();
     }
 
 }

@@ -134,7 +134,7 @@ public class List implements IList
     }
     
    
-    private int length()
+    public int length()
     {
         ListElement position;
         int length = 1;
@@ -151,7 +151,6 @@ public class List implements IList
         while (position.getSuccessor() != null)
         {
             position = (ListElement)position.getSuccessor();
-            System.out.println("Pos: " + length + " " + position.getValueElement().toString());
             length++;
         }
         return length;
@@ -161,13 +160,18 @@ public class List implements IList
     public IValueElement getElementAt(int pos)
     {
         int listLength = this.length();
+        if ((pos == 0) || (pos < 0))
+        {
+            return null;
+        }
+        
         if (pos <= listLength)
         {
             return getListElementAt(pos).getValueElement();
         }
         else
         {
-            return this.head.getValueElement();
+            return null;
         }
         
         
@@ -213,6 +217,11 @@ public class List implements IList
         ListElement position = (ListElement) this.head.getSuccessor();
         ListElement posPredecessor = position;
 
+        if (value == null)
+        {
+            return -1;
+        }
+        
         // find first pos of
 
         // default bei keiner Übereinstimmung ist -1
@@ -296,27 +305,87 @@ public class List implements IList
     @Override
     public void deleteAllOf(IValueElement value)
     {
-        // TODO Auto-generated method stub
+        // as long as there are value elements in the list, deleteFirstOf value
+        while (value != null && (this.getFirstPosOf(value) != -1))
+        {
+            this.deleteFirstOf(value);
+        }
         
     }
 
     @Override
     public boolean member(IValueElement value)
     {
-        // TODO Auto-generated method stub
-        return false;
+        
+        return (this.getFirstPosOf(value) != -1);
     }
 
     @Override
     public void reverse()
     {
-        // TODO Auto-generated method stub
+       
+        ListElement position = (ListElement)this.head.getSuccessor();
+        int listLength = this.length();
+        
+        // check if Liste leer
+        if (listLength == 0)
+        {
+            return;
+        }
+        
+        // fix head predecessor
+        this.head.setPredecessor(position);
+        
+        
+        // reverse connections for each element
+        for (int i=1; i<=listLength;i++)
+        {
+            swapConnections(position);
+            if (position.getPredecessor()!=null)
+            {
+                position = (ListElement)position.getPredecessor();
+            }
+        }
+        
+        // fix head successor
+        this.head.setSuccessor(position);
+        
+        // fix first element predecessor
+        this.head.getSuccessor().setPredecessor(this.head);
+        
+        // fix new last element
+        head.getPredecessor().setSuccessor(null);
+       
+        
         
     }
     
+    private void swapConnections(ListElement position)
+    {
+        ListElement holder;
+        holder = (ListElement)position.getSuccessor();
+        position.setSuccessor(position.getPredecessor());
+        position.setPredecessor(holder);
+
+    }
+    
+   
+    
     public String toString()
     {
-        return "toDo";
+        ListElement position;
+        String printString="";
+        
+        position = (ListElement)this.head.getSuccessor();
+        System.out.println("Head: " + position.getValueElement().getName());
+        int listLength = this.length();
+        
+        for (int i = 1; i<listLength;i++)
+        {
+            printString= printString + "i= " + i + " Name: " + this.getElementAt(i).getName();
+        }
+        
+        return printString;
     }
     
     private IValueElement validValue(IValueElement valueToCheck)
